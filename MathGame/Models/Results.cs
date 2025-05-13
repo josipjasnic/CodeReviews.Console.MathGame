@@ -11,7 +11,7 @@
         }
         public override string ToString()
         {
-            return $"{User.Name},{Game.GameType},{Game.Score}";
+            return $"{User.Name},{Game.GameType},{Game.Score}, {Game.Difficulty}";
         }
     }
 }

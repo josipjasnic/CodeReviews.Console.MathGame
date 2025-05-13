@@ -2,6 +2,7 @@
 using MathGame.Menu;
 using MathGame.Models;
 using MathGame.Score;
+using static MathGame.Models.Menu;
 
 namespace MathGame
 {
@@ -18,37 +19,37 @@ namespace MathGame
             ResultsManager resultsManager = new(scoreHelpers, gameMenu);
             Games.Helpers gameHelpers = new(user, userManager, resultsManager, gameManager);
             GameEngine gameEngine = new(gameHelpers);
-
+            Options options = new();
+            Difficulty difficulty = Difficulty.Easy;
             int gameNumber = 1;
-            int score = 0;
+            decimal score = 0;
 
             startMenu.GreetingMessage();
             string name = startMenu.GetPlayerName();
 
-            gameMenu.Options(name);
-            GameType gameType = gameMenu.Select();
+            MenuOptions menuOption = startMenu.Select();
 
-            while (!gameType.Equals(GameType.Quit))
+            while (!menuOption.Equals(MenuOptions.Quit))
             {
-                if (gameType.Equals(GameType.ViewResults))
+                if (menuOption.Equals(MenuOptions.NewGame))
+                {
+                    GameType gameType = gameMenu.Select();
+
+                    score = gameEngine.Play(gameType, score, name, gameNumber, difficulty);
+                }
+                else if (menuOption.Equals(MenuOptions.Options))
+                {
+                    difficulty = options.SelectDifficulty();
+                }
+                else if (menuOption.Equals(MenuOptions.Highscore))
                 {
                     resultsManager.View();
-
-                    Console.WriteLine("Press any key to continue.");
-                    Console.ReadKey();
-                    Console.Clear();
-                    gameMenu.Options(name);
-                    gameType = gameMenu.Select();
                 }
-                else if (gameType != GameType.Quit)
-                {
-                    score = gameEngine.Play(gameType, score, name, gameNumber);
 
-                    Console.Clear();
-                    gameMenu.Options(name);
-                    gameType = gameMenu.Select();
-                    gameNumber++;
-                }
+                Console.WriteLine("Press any key to continue.");
+                Console.ReadKey();
+                Console.Clear();
+                menuOption = startMenu.Select();
             }
         }
     }

@@ -24,15 +24,14 @@ namespace MathGame.Score
 
         public void View()
         {
-            _helpers.Options();
             GameType gameType = _gameMenu.Select();
-            _results.Sort();
+            _results = _results.OrderByDescending(x => x.Game.Score).ToList();
 
-            Console.WriteLine("{0,-15} | {1,-15} | {2,-5}", "Name", "Game Type", "Score");
+            Console.WriteLine("{0,-15} | {1,-15} | {2,-5}| {3,-5}", "Name", "Game Type", "Score", "Difficulty");
             Console.WriteLine(new string('-', 42));
             foreach (Result result in _results.Where(result => result.Game.GameType.Equals(gameType)))
             {
-                Console.WriteLine("{0,-15} | {1,-15} | {2,-5}", result.User.Name, result.Game.GameType, result.Game.Score);
+                Console.WriteLine("{0,-15} | {1,-15} | {2,-5}| {3,-5}", result.User.Name, result.Game.GameType, result.Game.Score, result.Game.Difficulty);
             }
         }
 

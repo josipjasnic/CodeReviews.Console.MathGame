@@ -1,5 +1,6 @@
 ﻿using MathGame.Models;
 using MathGame.Score;
+using static MathGame.Models.Menu;
 
 namespace MathGame.Games
 {
@@ -64,17 +65,29 @@ namespace MathGame.Games
             Console.Write($"{numbers[0]} {symbol} {numbers[1]} = ");
         }
 
-        internal void AddResultToHistory(GameType gameType, int score, string name, int gameNumber)
+        internal void AddResultToHistory(GameType gameType, decimal score, string name, int gameNumber, Difficulty difficulty)
         {
             string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             string filePath = Path.Combine(desktopPath, "text.txt"); _user.Name = name;
 
-            Game game = new Game(gameNumber, score, gameType);
+            Game game = new Game(gameNumber, score, gameType, difficulty);
             Result result = new Result(_user, game);
 
             _resultsManager.Add(result, filePath);
             _gameManager.Add(game);
             _userManager.Add(_user);
+        }
+
+        internal decimal CalculateScore(TimeSpan elapsed, decimal maxSeconds = 5)
+        {
+            decimal seconds = (decimal)elapsed.TotalSeconds;
+
+            if (seconds >= maxSeconds)
+                return 0.1m;
+
+            decimal rawScore = 1m - (seconds / maxSeconds);
+
+            return Math.Round(Math.Max(0.1m, rawScore), 2);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using MathGame.Models;
+﻿using System.Diagnostics;
+using MathGame.Models;
+using static MathGame.Models.Menu;
 
 namespace MathGame.Games
 {
@@ -10,31 +12,37 @@ namespace MathGame.Games
         {
             _helpers = helpers;
         }
-        internal int Play(GameType gameType, int score, string name, int gameNumber)
+        internal decimal Play(GameType gameType, decimal score, string name, int gameNumber, Difficulty difficulty)
         {
+            Console.WriteLine($"Difficulty: {difficulty.ToString()}");
             for (int i = 0; i < 5; i++)
             {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
                 NumberGenerator numberGenerator = new();
-                int[] numbers = numberGenerator.GetNumbers(gameType);
+                int[] numbers = numberGenerator.GetNumbers(gameType, difficulty);
                 int result = _helpers.GameResult(gameType, numbers);
                 _helpers.ShowGame(gameType, numbers);
                 int input = _helpers.InputValue();
+                stopwatch.Stop();
+                TimeSpan elapsed = stopwatch.Elapsed;
 
                 if (result == input)
                 {
-                    Console.Write("Your answer is correct. ");
-                    score++;
+                    score += _helpers.CalculateScore(elapsed);
+
+                    Console.WriteLine($"Your answer is correct. Time: {elapsed.TotalSeconds:F2}");
                 }
                 else
                 {
-                    Console.Write("Your answer is not correct. ");
+                    Console.WriteLine($"Your answer is not correct. Time: {elapsed.TotalSeconds:F2}");
                 }
                 Console.Write("Press any key for next question.");
                 Console.ReadKey();
                 Console.Clear();
             }
-            _helpers.AddResultToHistory(gameType, score, name, gameNumber);
-            Console.Write($"Game over. Your score is {score}.\nPress any key to continue.");
+            _helpers.AddResultToHistory(gameType, score, name, gameNumber, difficulty);
+            Console.WriteLine($"Game over. Your score is {score}.");
             Console.ReadKey();
 
             return score;

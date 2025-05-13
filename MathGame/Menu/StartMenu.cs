@@ -1,4 +1,6 @@
-﻿namespace MathGame.Menu
+﻿using static MathGame.Models.Menu;
+
+namespace MathGame.Menu
 {
     internal class StartMenu
     {
@@ -15,6 +17,24 @@
             Helpers.ValidateNameInput(name);
             Console.Clear();
             return name;
+        }
+
+        private void Options()
+        {
+            Console.WriteLine("N- New game");
+            Console.WriteLine("O - Options");
+            Console.WriteLine("H - High scores");
+            Console.WriteLine("Q - Quit");
+            Console.Write("Select the option: ");
+        }
+
+        internal MenuOptions Select()
+        {
+            Options();
+            ConsoleKeyInfo selectedOption = Console.ReadKey();
+            MenuOptions option = Helpers.ValidateSelection(selectedOption);
+            Console.Clear();
+            return option;
         }
     }
 }

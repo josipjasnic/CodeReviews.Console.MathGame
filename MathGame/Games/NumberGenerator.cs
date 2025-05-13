@@ -1,4 +1,5 @@
 ﻿using MathGame.Models;
+using static MathGame.Models.Menu;
 
 namespace MathGame.Games
 {
@@ -11,10 +12,17 @@ namespace MathGame.Games
             _random = new Random();
         }
 
-        internal int[] GetNumbers(GameType gameType)
+        internal int[] GetNumbers(GameType gameType, Difficulty difficulty)
         {
-            int firstNumber = _random.Next(100);
-            int secondNumber = _random.Next(100);
+            int upperLimit = difficulty switch
+            {
+                Difficulty.Easy => 11,
+                Difficulty.Medium => 51,
+                Difficulty.Hard => 101,
+                _ => 11
+            };
+            int firstNumber = _random.Next(upperLimit);
+            int secondNumber = _random.Next(upperLimit);
 
             if (gameType.Equals(GameType.Division))
             {
