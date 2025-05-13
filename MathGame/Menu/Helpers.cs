@@ -16,7 +16,7 @@ namespace MathGame.Menu
 
         internal static GameType ValidateGameSelection(ConsoleKeyInfo input)
         {
-            char[] validChoices = ['a', 's', 'm', 'd'];
+            char[] validChoices = ['a', 's', 'm', 'd', 'r'];
 
             while (!validChoices.Contains(char.ToLower(input.KeyChar)))
             {
@@ -30,6 +30,7 @@ namespace MathGame.Menu
                 "s" => GameType.Substraction,
                 "m" => GameType.Multiplication,
                 "d" => GameType.Division,
+                "r" => GameType.Random,
                 _ => throw new ArgumentException("Unsupported game type")
             };
         }

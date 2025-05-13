@@ -14,9 +14,23 @@ namespace MathGame.Games
         }
         internal decimal Play(GameType gameType, decimal score, string name, int gameNumber, Difficulty difficulty)
         {
+            bool isRandom = GameType.Random == gameType;
             Console.WriteLine($"Difficulty: {difficulty.ToString()}");
             for (int i = 0; i < 5; i++)
             {
+                if (isRandom)
+                {
+                    Random random = new Random();
+                    GameType[] options =
+                    {
+                        GameType.Addition,
+                        GameType.Substraction,
+                        GameType.Multiplication,
+                        GameType.Division
+                    };
+                    gameType = options[random.Next(options.Length)];
+                }
+
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
                 NumberGenerator numberGenerator = new();
@@ -41,7 +55,7 @@ namespace MathGame.Games
                 Console.ReadKey();
                 Console.Clear();
             }
-            _helpers.AddResultToHistory(gameType, score, name, gameNumber, difficulty);
+            _helpers.AddResultToHistory(isRandom ? GameType.Random : gameType, score, name, gameNumber, difficulty);
             Console.WriteLine($"Game over. Your score is {score}.");
             Console.ReadKey();
 

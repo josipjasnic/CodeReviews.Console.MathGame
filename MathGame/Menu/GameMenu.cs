@@ -10,6 +10,7 @@ namespace MathGame.Menu
             Console.WriteLine("S - Subtraction game.");
             Console.WriteLine("M - Multiplication game.");
             Console.WriteLine("D - Division game.");
+            Console.WriteLine("R - Random game.");
             Console.Write("Select the game: ");
         }
 

@@ -25,5 +25,6 @@ namespace MathGame.Models
         Substraction,
         Multiplication,
         Division,
+        Random
     }
 }
