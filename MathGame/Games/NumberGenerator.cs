@@ -34,11 +34,20 @@ namespace MathGame.Games
                 }
 
                 while (secondNumber == 0)
-                    secondNumber = _random.Next(firstNumber);
+                    secondNumber = _random.Next(firstNumber, upperLimit);
 
                 while (firstNumber % secondNumber != 0)
                 {
-                    secondNumber = _random.Next(firstNumber);
+                    secondNumber = _random.Next(1, firstNumber);
+                }
+            }
+            else if (gameType.Equals(GameType.Substraction) && difficulty.Equals(Difficulty.Easy))
+            {
+                if (firstNumber < secondNumber)
+                {
+                    int temp = firstNumber;
+                    firstNumber = secondNumber;
+                    secondNumber = temp;
                 }
             }
 

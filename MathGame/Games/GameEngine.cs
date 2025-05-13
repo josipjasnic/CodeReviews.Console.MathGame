@@ -7,10 +7,13 @@ namespace MathGame.Games
     internal class GameEngine
     {
         private readonly Helpers _helpers;
+        private readonly NumberGenerator _numberGenerator;
 
         public GameEngine(Helpers helpers)
         {
             _helpers = helpers;
+            _numberGenerator = new();
+
         }
         internal decimal Play(GameType gameType, decimal score, string name, int gameNumber, Difficulty difficulty)
         {
@@ -33,8 +36,7 @@ namespace MathGame.Games
 
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                NumberGenerator numberGenerator = new();
-                int[] numbers = numberGenerator.GetNumbers(gameType, difficulty);
+                int[] numbers = _numberGenerator.GetNumbers(gameType, difficulty);
                 int result = _helpers.GameResult(gameType, numbers);
                 _helpers.ShowGame(gameType, numbers);
                 int input = _helpers.InputValue();
